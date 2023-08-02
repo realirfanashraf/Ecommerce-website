@@ -1,0 +1,110 @@
+<%- include('../partials/adminHeader') %>	
+<%- include('../partials/adminNavbar') %>	
+
+<div class="content-wrapper">
+    <!-- Content -->
+
+    <div class="container-xxl flex-grow-1 container-p-y">
+      <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Admin /</span> Sales Report</h4>
+
+      <div class="d-flex flex-row">
+        <a href="/admin/exportSalesExcel" class="btn btn-primary btn-sm me-3">Get Report (CSV)</a>
+       
+      </div>
+     
+
+      <hr class="my-5" />
+
+      <!-- Bordered Table -->
+      <div class="card">
+        <!-- <h5 class="card-header">Bordered Table</h5> -->
+        <div class="card-body">
+          <div class="table-responsive text-nowrap">
+            <table id="salesTable" class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>No.</th>
+                  <th>Date</th>
+                  <th>Order Id</th>
+                  <th>User</th>
+                  <th>Products</th>
+                  <th>Quantity</th>
+                  <th>Payment</th>
+                  <th>Total</th>
+                </tr>
+              </thead>
+              <tbody>
+              <% salesData.reverse().forEach((order,index) => { %>
+                <tr>
+                  <td><%= index + 1%></td>
+                  <td><%= new Date(order.createdAt).toLocaleString() %></td>
+                  <td><%= order._id %></td>
+                  <td>
+                    <strong><%= order.user.name %></strong>
+                  </td>
+                  <td>
+                    <strong>
+                      <% order.items.forEach((item) => { %>
+                          <%= item.product?.name %> <br>
+                      <% }) %>
+                    </strong>
+                  </td>
+                  <td>
+                      <% order.items.forEach((item) => { %>
+                          <%= item.quantity %> <br>
+                      <% }) %>
+                  </td>
+                  <td><%= order.payment_method %></td>
+                  <td><strong>₹ <%= order.totalAmount %></strong></td>
+                </tr>
+              <% }) %>
+              </tbody>
+            </table>
+
+
+          </div>
+        </div>
+      </div>
+      <!--/ Bordered Table -->
+
+
+      <hr class="my-5" />
+
+    </div>
+    <!-- / Content -->
+
+
+    <div class="content-backdrop fade"></div>
+  </div>
+  <!-- Content wrapper -->
+</div>
+<!-- / Layout page -->
+</div>
+
+<!-- Overlay -->
+<div class="layout-overlay layout-menu-toggle"></div>
+</div>
+<!-- / Layout wrapper -->
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src=
+"https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js">
+</script>
+
+<style>
+
+table.dataTable tbody td {
+border-bottom: 1px solid #ddd;
+}
+
+</style>
+
+<script>
+
+  $(document).ready(function() {
+$('#salesTable').DataTable();
+})
+let table= new DataTable('#salesTable')
+
+</script>
+<%- include('../partials/adminFooter') %>	

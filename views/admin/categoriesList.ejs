@@ -1,0 +1,52 @@
+<%- include('../partials/adminHeader') %>	
+<%- include('../partials/adminNavbar') %>
+
+<div class="container">
+    <h4>Categories List</h4>
+  
+    <hr class="my-5" />
+  
+    <div class="card">
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>No.</th>
+                <th>Added Categories</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% categories.forEach((category, index) => { %>
+                <tr>
+                  <td><%= index + 1 %></td>
+                  <td><%= category.name %></td>
+                  <td>
+                    <div class="dropdown">
+                      <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                        <i class="bx bx-dots-vertical-rounded"></i>
+                      </button>
+                      <div class="dropdown-menu">
+                        <a class="dropdown-item" href="/admin/dashboard/editCatego/<%= category._id %>">
+                          <i class="bx bx-edit-alt me-1"></i> Edit
+                        </a>
+                        <a class="dropdown-item" href="/admin/deleteCategory/<%= category._id %>">
+                          <i class="bx bx-trash me-1"></i> Delete
+                        </a>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  
+    <hr class="my-5" />
+  </div>
+  
+
+  <%- include('../partials/adminFooter') %>	

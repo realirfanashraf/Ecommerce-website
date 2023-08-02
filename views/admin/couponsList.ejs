@@ -1,0 +1,101 @@
+<%- include('../partials/adminHeader') %>	
+<%- include('../partials/adminNavbar') %>
+<div class="content-wrapper">
+    <!-- Content -->
+
+    <div class="container-xxl flex-grow-1 container-p-y">
+      <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Coupons /</span>View Coupons</h4>
+
+      <hr class="my-5" />
+
+      <!-- Bordered Table -->
+      <div class="card">
+       
+        <div class="card-body">
+          <div class="table-responsive text-nowrap">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>No.</th>
+                  <th>Coupon Code</th>
+                  <th>Amount Deduced</th>
+                  <th>Created Date</th>
+                  <th>Expiry Date</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody> 
+                 <% couponData.forEach((coupon, index) => { %>
+                      <tr>
+
+                            <td><%= index + 1 %></td>
+                            <td><strong><%= coupon.code %></strong></td>
+                            <td><%= coupon.discount %></td>
+                            <td><%= coupon.createdDate.toLocaleDateString() %></td>
+                            <td>
+                              <%= coupon.expiryDate.toLocaleDateString() %> <br> <br>
+
+                              <% if(coupon.status == false) { %>
+                                <span class="badge bg-label-danger">Deactivated</span>
+                              <% } else if(coupon.status == true){ %>
+                                <span class="badge bg-label-success">Activated</span>
+                              <% } else if(new Date(coupon.expiryDate) < new Date()){ %>
+                                <span class="badge bg-label-info">Expired</span>  
+                              <% } %>  
+                            </td>
+                            <td>
+                              <% if(new Date(coupon.expiryDate) < new Date()) { %>
+                                <button class="btn btn-secondary btn-xs" disabled>Cannot Activate</button>
+                              <% } else if(coupon.status){ %>
+                                <a href="/admin/deactivate/<%= coupon._id %>" class="btn btn-danger btn-xs">Deactivate Coupon</a>
+                              <% } else { %>  
+                                <a href="/admin/activate/<%= coupon._id %>" class="btn btn-success btn-xs">Activate Coupon</a>
+                              <% } %>
+                            </td>
+                            <td>
+                              <div class="dropdown">
+                                  <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                    <i class="bx bx-dots-vertical-rounded"></i>
+                                  </button>
+                                  <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="/admin/delete/<%= coupon._id %>"
+                                      ><i class="bx bx-trash me-1"></i> Delete</a
+                                    >
+                                  </div>
+                                </div>
+                            </td>
+                      </tr>
+                  <% }) %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <%
+      if(typeof message !== 'undefined'){
+        %>
+        <div  id="" class="bs-toast toast fade show bg-dark" role="alert" aria-live="assertive"  aria-atomic="true">
+          <div class="toast-header">
+            <i class="bx bx-bell me-2"></i>
+            <div class="me-auto fw-semibold">Alert!!</div>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+          </div>
+          <div class="toast-body">
+             <%= message %>
+          </div>
+        </div>
+        <%
+      }
+      %>
+      <!--/ Bordered Table -->
+
+      <hr class="my-5" />
+
+    </div>
+    <!-- / Content -->
+
+    <div class="content-backdrop fade"></div>
+  </div>
+<%- include('../partials/adminFooter') %>

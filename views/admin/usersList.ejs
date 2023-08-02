@@ -1,0 +1,62 @@
+<%- include('../partials/adminHeader') %>	
+<%- include('../partials/adminNavbar') %>
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4">
+      <span class="text-muted fw-light">Users /</span> View Users
+    </h4>
+    <hr class="my-5" />
+    <div class="card">
+      <div class="card-body">
+        <div class="table-responsive text-nowrap">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>No.</th>
+                <th>Name</th>
+                <th>Email ID</th>
+                <th>Phone No.</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% users.forEach((user, index) => { %>
+              <tr>
+                <td><%= index + 1 %></td>
+                <td>
+                  <i class="fab fa-angular fa-lg text-danger me-3"></i>
+                  <strong><%= user.name %></strong>
+                </td>
+                <td><%= user.email %></td>
+                <td><%= user.phone %></td>
+                <td>
+                  <% if (user.isBlocked) { %>
+                    <a href="/admin/unblockUser/<%= user._id %>" class="btn btn-success btn-sm border-shadow update">Unblock</a>
+                  <% } else { %>
+                    <a href="/admin/blockUser/<%= user._id %>" class="btn btn-danger btn-sm border-shadow update">Block</a>
+                  <% } %>
+                  
+                </td>
+              </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  
+    <hr class="my-5" />
+  </div>
+  
+<%- include('../partials/adminFooter') %>
+<script>
+  setTimeout(() => {
+    document.getElementById("msg").style.display = "none";
+  }, 1000);
+  
+
+  $(document).ready(function() {
+    $('#myTable').DataTable();
+  })
+  let table= new DataTable('#myTable')
+ 
+</script>

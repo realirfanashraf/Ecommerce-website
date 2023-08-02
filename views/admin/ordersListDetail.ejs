@@ -1,0 +1,145 @@
+<%- include('../partials/adminHeader') %>	
+<%- include('../partials/adminNavbar') %>
+
+<style>
+  .container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+
+  .content {
+    margin-top: 20px;
+  margin-right: 20px;
+  margin-bottom: 10px;
+  margin-left: 20px;
+  }
+
+  .left-box,
+  .right-box {
+    width: 45%;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  th, td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+
+  th {
+    background-color: #f2f2f2;
+  }
+
+  img {
+    max-width: 50px;
+    max-height: 50px;
+  }
+
+</style>
+
+
+
+
+
+
+
+
+
+
+<div class="content" >
+  <div class="container">
+    <div class="left-box">
+      <h3>Billing Address</h3>
+      <div>
+        <p><%= orders.address.name %></p>
+        <p><%= orders.address.address %></p>
+        <p><%= orders.address.phone %></p>
+        <p><%= orders.address.pincode %></p>
+        <p><%= orders.address.city %></p>
+        <p><%= orders.address.state %></p>
+      </div>
+    </div>
+  
+    <div class="right-box">
+      <h3>Order Details</h3>
+      <div>
+        <p><%= orders._id %></p>
+        <p><%= orders.totalAmount %></p>
+        <p><%= orders.status %>
+          <% if (orders.status !== 'Delivered') { %>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal<%= orders._id %>">
+              <i class="fas fa-ellipsis-h align-center"></i>
+              change status
+            </button>
+          <% } %>
+        </p>
+        <p><%= orders.createdAt %></p>
+        <p><%= orders.payment_method %></p>
+      </div>
+    </div>
+  </div>
+  
+  <table>
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>Name</th>
+        <th>Quantity</th>
+        <th>Total</th>
+        <th>Status</th>
+       
+      </tr>
+    </thead>
+    <tbody>
+      <% orders.items.forEach(product => { %>
+        <tr>
+          <td><img src="/<%= product.product.image[0] %>" alt="Image"></td>
+          <td><%= product.product.name %></td>
+          <td><%= product.quantity %></td>
+          <td><%= product.total %></td>
+          <td><%= orders.status %></td>
+          
+          
+        </tr>
+        <div class="modal fade" id="exampleModal<%= orders._id %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel" style="color: black;">Status updated</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <form action="/admin/updateOrderStatus/<%= orders._id %>" method="post">
+                  <select name="status">
+                    <option value="Pending" <% if (orders.status === 'Pending') { %>selected<% } %>>Pending</option>
+                    <option value="Delivered" <% if (orders.status === 'Delivered') { %>selected<% } %>>Delivered</option>
+                    <option value="Shipped" <% if (orders.status === 'Shipped') { %>selected<% } %>>Shipped</option>
+                    <option value="Cancelled" <% if (orders.status === 'Cancelled') { %>selected<% } %>>Cancel</option>
+                  </select>
+                  
+                  <button type="submit" class="btn btn-primary">Save changes</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% }) %>
+    </tbody>
+    
+    
+  </table>
+</div>
+
+
+
+
+
+<%- include('../partials/adminFooter') %>

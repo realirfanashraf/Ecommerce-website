@@ -1,0 +1,41 @@
+<%- include('../partials/adminHeader') %>	
+<%- include('../partials/adminNavbar') %>
+
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4">
+      <span class="text-muted fw-light">Admin /</span> Orders list
+    </h4>
+    <hr class="my-5" />
+    <div class="card">
+      <div class="card-body">
+        <div class="table-responsive text-nowrap">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>UserID</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th>Date</th>
+                <th>Payment</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% orders.forEach((order) => { %>
+              <tr>
+                <td><a href="/admin/ordersListDetail/<%= order._id %>"><%= order._id %></a></td>
+                <td><%= order.totalAmount %></td>
+                <td><%= order.status %></td>
+                <td><%= order.createdAt.toLocaleDateString() %></td>
+                <td><%= order.payment_method %></td>
+              </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  
+    <hr class="my-5" />
+  </div>
+
+<%- include('../partials/adminFooter') %>

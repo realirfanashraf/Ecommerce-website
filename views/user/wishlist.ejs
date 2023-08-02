@@ -1,0 +1,133 @@
+
+<%- include('../partials/_header') %>	
+    <div class="page-wrapper">
+
+        <div class="background" style="background-image: url(assets/images/page-header-bg.jpg);">
+			<%- include('../partials/userNavbar') %>      
+            </div><!-- End .page-header -->
+        <main class="main">
+            <nav aria-label="breadcrumb" class="breadcrumb-nav">
+                <div class="container">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb-item"><a href="#">Shop</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Wishlist</li>
+                    </ol>
+                </div><!-- End .container -->
+            </nav><!-- End .breadcrumb-nav -->
+			<% if (typeof products !== 'undefined' && products.length > 0) { %>
+			<div class="page-content">
+				<div class="container">
+					<table class="table table-wishlist table-mobile">
+						<thead>
+							<tr>
+								<th>Product</th>
+								<th>Price</th>
+								<th>Stock Remaining</th>
+								<th></th>
+								<th></th>
+							</tr>
+						</thead>
+			
+						<tbody>
+							<% products.forEach(product => { %>
+							<tr>
+								<td class="product-col">
+									<div class="product">
+										<figure class="product-media">
+											<a href="#">
+												<img src="<%= product.productId.image[0] %>" alt="Product image">
+											</a>
+										</figure>
+			
+										<h3 class="product-title">
+											<a href="#"><%= product.productId.name %></a>
+										</h3><!-- End .product-title -->
+									</div><!-- End .product -->
+								</td>
+								<td class="price-col"><%= product.productId.price %></td>
+								<td class="stock-col p-5" >
+									<span class="in-stock"><%= product.productId.stock %></span>
+								</td>
+			
+								<td class="add-to-cart-col">
+									<a href="#" class="btn-product btn-cart" data-product-id="<%= product.productId._id %>"><span>Add to Cart</span></a>
+								</td>
+			
+								<td class="remove-col">
+									<a href="/deleteWishlistItem/<%= product.productId._id %>">
+										<i class="icon-close"></i>
+									</a>
+								</td>
+							</tr>
+							<% }) %>
+						</tbody>
+					</table><!-- End .table table-wishlist -->
+				</div><!-- End .container -->
+			</div><!-- End .page-content -->
+			<% } else { %>
+				<div style="display: flex; justify-content: center; align-items: center; height: 50vh;">
+				  <h2 style="text-align: center;">Your Wishlist is Empty</h2>
+				</div>
+				<% } %>
+			
+			
+			
+        </main><!-- End .main -->
+
+        <%- include('../partials/userFooter') %>
+    </div><!-- End .page-wrapper -->
+    <button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
+
+    <%- include('../partials/mobileMenu') %>
+
+
+
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+     <script>
+		document.addEventListener('DOMContentLoaded', function() {
+          const addToCartButtons = document.querySelectorAll('.btn-cart');
+      
+          addToCartButtons.forEach(function(button) {
+            button.addEventListener('click', function(event) {
+              event.preventDefault();
+      
+              const productId = this.getAttribute('data-product-id');
+      
+              axios.post('/addToCart/' + productId)
+                .then(function(response) {
+                  console.log(response.data);
+      
+                  // Show success message using SweetAlert
+                  Swal.fire({
+                    title: "Success",
+                    text: "Product added to cart successfully",
+                    icon: "success",
+                    confirmButtonText: "OK"
+                  });
+      
+                })
+                .catch(function(error) {
+                  console.error(error);
+                });
+            });
+          });
+        });
+	 </script>
+
+    <!-- Plugins JS File -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/jquery.hoverIntent.min.js"></script>
+    <script src="assets/js/jquery.waypoints.min.js"></script>
+    <script src="assets/js/superfish.min.js"></script>
+    <script src="assets/js/owl.carousel.min.js"></script>
+    <!-- Main JS File -->
+    <script src="assets/js/main.js"></script>
+</body>
+
+
+<!-- molla/wishlist.html  22 Nov 2019 09:55:06 GMT -->
+</html>

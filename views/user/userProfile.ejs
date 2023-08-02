@@ -1,0 +1,189 @@
+<%- include('../partials/_header') %>	
+<style>
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  th, td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: center;
+  }
+</style>
+    <div class="page-wrapper">
+
+        <div class="background" style="background-image: url(assets/images/page-header-bg.jpg);">
+			<%- include('../partials/userNavbar') %>      
+            </div><!-- End .page-header -->
+
+        <main class="main">
+            <nav aria-label="breadcrumb" class="breadcrumb-nav mb-3">
+                <div class="container">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb-item"><a href="#">Shop</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">My Account</li>
+                    </ol>
+                </div><!-- End .container -->
+            </nav><!-- End .breadcrumb-nav -->
+
+            <div class="page-content">
+            	<div class="dashboard">
+	                <div class="container">
+	                	<div class="row">
+	                		<aside class="col-md-4 col-lg-3">
+	                			<ul class="nav nav-dashboard flex-column mb-3 mb-md-0" role="tablist">
+								    <li class="nav-item">
+								        <a class="nav-link active" id="tab-dashboard-link" data-toggle="tab" href="#tab-dashboard" role="tab" aria-controls="tab-dashboard" aria-selected="true">User Profile</a>
+								    </li>
+								    <li class="nav-item">
+								        <a class="nav-link" id="tab-orders-link" data-toggle="tab" href="#tab-orders" role="tab" aria-controls="tab-orders" aria-selected="false">Orders</a>
+								    </li>
+								    <li class="nav-item">
+								        <a class="nav-link" id="tab-address-link" data-toggle="tab" href="#tab-address" role="tab" aria-controls="tab-address" aria-selected="false">Adresses</a>
+								    </li>
+								    <li class="nav-item">
+								        <a class="nav-link" id="tab-account-link" data-toggle="tab" href="#tab-account" role="tab" aria-controls="tab-account" aria-selected="false">Change Password</a>
+								    </li>
+								    <li class="nav-item">
+								        <a class="nav-link" href="/logout">Logout</a>
+								    </li>
+								</ul>
+	                		</aside><!-- End .col-lg-3 -->
+
+	                		<div class="col-md-8 col-lg-9">
+	                			<div class="tab-content">
+								    <div class="tab-pane fade show active" id="tab-dashboard" role="tabpanel" aria-labelledby="tab-dashboard-link">
+                                           <div>
+                                            <p>
+                                              <span style="font-size: 24px; font-weight: bold;">Hello <%= user.name %> Greetings!</span>
+                                            </p>
+                                          </div>
+                                          
+								    </div><!-- .End .tab-pane -->
+                    <div class="tab-pane fade" id="tab-orders" role="tabpanel" aria-labelledby="tab-orders-link">
+                                          
+                      <table>
+                        <thead>
+                          <tr>
+                            <th>Order ID</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                            <th>Payment Method</th>
+                            <th>Date</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <% order.forEach(orderItem => { %>
+                          <tr>
+                            <td><a href="/userOrdersListDetail/<%= orderItem._id %>"><%= orderItem._id %></a></td>
+                            <td><%= orderItem.items[0] ? orderItem.items[0].quantity : '' %></td>
+                            <td><%= orderItem.items[0] ? orderItem.items[0].total : '' %></td>
+                            <td><%= orderItem.status %></td>
+                            <td><%= orderItem.payment_method %></td>
+                            <td><%= orderItem.createdAt.toLocaleDateString() %></td>
+                          </tr>
+                          <% }) %>
+                        </tbody>
+                      </table>
+
+                      
+                  </div><!-- .End .tab-pane -->
+                  
+
+
+
+								    <div class="tab-pane fade" id="tab-address" role="tabpanel" aria-labelledby="tab-address-link">
+								    	<h4>Recent Address list</h4>
+
+								    	<div class="row">
+                                            <div class="col-lg-12">
+                                              <div class="card card-dashboard">
+                                                <% if (data && data.length > 0) { %>
+                                                  <div class="card-body">
+                                                    <div class="row">
+                                                      <% for (let i = 0; i < data.length; i += 2) { %>
+                                                        <div class="col-md-6">
+                                                          <ul>
+                                                            <li>Name: <%= data[i].name %></li>
+                                                            <li>Phone: <%= data[i].phone %></li>
+                                                            <li>Address: <%= data[i].address %></li>
+                                                            <li>Pin Code: <%= data[i].pincode %></li>
+                                                            <li>City: <%= data[i].city %></li>
+                                                            <li>State: <%= data[i].state %></li>
+                                                          </ul>
+                                                        </div><!-- End .col-md-6 -->
+                                                        <% if (i + 1 < data.length) { %>
+                                                          <div class="col-md-6">
+                                                            <ul>
+                                                              <li>Name: <%= data[i + 1].name %></li>
+                                                              <li>Phone: <%= data[i + 1].phone %></li>
+                                                              <li>Address: <%= data[i + 1].address %></li>
+                                                              <li>Pin Code: <%= data[i + 1].pincode %></li>
+                                                              <li>City: <%= data[i + 1].city %></li>
+                                                              <li>State: <%= data[i + 1].state %></li>
+                                                            </ul>
+                                                          </div><!-- End .col-md-6 -->
+                                                        <% } %>
+                                                      <% } %>
+                                                    </div><!-- End .row -->
+                                                  </div><!-- End .card-body -->
+                                                <% } else { %>
+                                                  <div class="card-body">
+                                                    <p>No address found</p>
+                                                  </div><!-- End .card-body -->
+                                                <% } %>
+                                              </div><!-- End .card-dashboard -->
+                                            </div><!-- End .col-lg-12 -->
+                                          </div><!-- End .row -->
+                                          
+								    </div><!-- .End .tab-pane -->
+
+								    <div class="tab-pane fade" id="tab-account" role="tabpanel" aria-labelledby="tab-account-link">
+								    	<form action="#">
+			                				<div class="row">
+		            						<label>Current password</label>
+		            						<input type="password" class="form-control">
+
+		            						<label>New password</label>
+		            						<input type="password" class="form-control">
+
+		            						<label>Confirm new password</label>
+		            						<input type="password" class="form-control mb-2">
+
+		                					<button type="submit" class="btn btn-outline-primary-2">
+			                					<span>SAVE CHANGES</span>
+			            						<i class="icon-long-arrow-right"></i>
+			                				</button>
+			                			</form>
+								    </div><!-- .End .tab-pane -->
+								</div>
+	                		</div><!-- End .col-lg-9 -->
+	                	</div><!-- End .row -->
+	                </div><!-- End .container -->
+                </div><!-- End .dashboard -->
+            </div><!-- End .page-content -->
+        </main><!-- End .main -->
+
+        <%- include('../partials/userFooter') %>
+    </div><!-- End .page-wrapper -->
+    <button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
+
+    <%- include('../partials/mobileMenu') %>
+
+    <!-- Plugins JS File -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/jquery.hoverIntent.min.js"></script>
+    <script src="assets/js/jquery.waypoints.min.js"></script>
+    <script src="assets/js/superfish.min.js"></script>
+    <script src="assets/js/owl.carousel.min.js"></script>
+    <!-- Main JS File -->
+    <script src="assets/js/main.js"></script>
+</body>
+
+
+<!-- molla/dashboard.html  22 Nov 2019 10:03:13 GMT -->
+</html>

@@ -1,0 +1,153 @@
+<%- include('../partials/_header') %>	
+<style>
+  .table-container {
+    margin: auto;
+    width: 80%;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .table-container {
+  max-width: 100%;
+  overflow-x: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 10px;
+}
+
+
+.product-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-heading {
+  padding: 10px;
+  text-align: left;
+}
+
+.product-image {
+  width: 50px;
+  height: 50px;
+}
+
+.btn {
+  margin: 5px;
+}
+
+</style><!-- Your HTML structure remains unchanged -->
+<div class="background" style="background-image: url(/assets/images/page-header-bg.jpg);">
+  <% include('../partials/userNavbar') %>      
+</div><!-- End .page-header -->
+
+<div class="content mt-5">
+    <div class="container">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="left-box border border-primary rounded p-3">
+              <h3>Billing Address</h3>
+              <div class="address-section">
+                <p><%= orders.address.name %></p>
+                <p><%= orders.address.address %></p>
+                <p><%= orders.address.phone %></p>
+                <p><%= orders.address.pincode %></p>
+                <p><%= orders.address.city %></p>
+                <p><%= orders.address.state %></p>
+                
+              </div>
+            </div>
+          </div>
+      
+          <div class="col-md-6">
+            <div class="right-box border border-primary rounded p-3">
+              <h3>Order Details</h3>
+              <div class="order-details">
+                <p><strong>Order ID:</strong> <%= orders._id %></p>
+                <p><strong>Total Amount:</strong> <%= orders.totalAmount %></p>
+                <p>
+                  <strong>Status:</strong> <%= orders.status %>
+                  <% if (orders.status === 'Delivered') { %>
+                    <button onclick="handleReturnOrder('<%= orders._id %>')" id="returnButton">Return</button>
+                  <% } else if (orders.status === 'Returned' || orders.status === 'Canceled') { %>
+                    <button disabled id="returnButton">Disabled</button>
+                  <% } else { %>
+                    <button onclick="handleCancelOrder('<%= orders._id %>')" id="cancelButton">Cancel</button>
+                  <% } %>
+                </p>
+                <a href="/invoice/<%= orders._id %>">view invoice</a>
+                
+                 
+                <p><strong>Created At:</strong> <%= orders.createdAt %></p>
+                <p><strong>Payment Method:</strong> <%= orders.payment_method %></p>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    <div class="table-container mt-5">
+        <table class="product-table">
+          <thead>
+            <tr>
+              <th class="table-heading">Product</th>
+              <th class="table-heading">Name</th>
+              <th class="table-heading">Quantity</th>
+              <th class="table-heading">Total</th>
+              <th class="table-heading">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% orders.items.forEach(product => { %>
+            <tr>
+              <td><img src="/<%= product.product.image[0] %>" alt="Product Image" class="product-image"></td>
+              <td><%= product.product.name %></td>
+              <td><%= product.quantity %></td>
+              <td><%= product.total %></td>
+              <td><%= orders.status %></td>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+    </div>
+</div>
+
+<%- include('../partials/userFooter') %>
+</div><!-- End .page-wrapper -->
+
+<button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
+
+<%- include('../partials/mobileMenu') %>
+
+<script>
+async function handleCancelOrder(orderId) {
+  try {
+    const response = await fetch(`/cancelOrder/${orderId}`, { method: 'POST' });
+    if (response.ok) {
+      window.location.replace(`/userOrdersListDetail/${orderId}`);
+    } else {
+      const errorMessage = await response.text();
+      console.log(errorMessage);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+async function handleReturnOrder(orderId) {
+  try {
+    const response = await fetch(`/returnOrder/${orderId}`, { method: 'POST' });
+    if (response.ok) {
+      window.location.replace(`/userOrdersListDetail/${orderId}`);
+      window.location.reload();
+    } else {
+      const errorMessage = await response.text();
+      console.log(errorMessage);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+</script>

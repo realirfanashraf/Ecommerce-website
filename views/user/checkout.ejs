@@ -1,0 +1,297 @@
+<%- include('../partials/_header') %>
+  <div class="page-wrapper">
+
+    <div class="background" style="background-image: url(/assets/images/page-header-bg.jpg);">
+      <%- include('../partials/userNavbar') %>
+    </div><!-- End .page-header -->
+    <nav aria-label="breadcrumb" class="breadcrumb-nav">
+      <div class="container">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item"><a href="#">Shop</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Checkout</li>
+        </ol>
+      </div><!-- End .container -->
+    </nav><!-- End .breadcrumb-nav -->
+
+
+
+
+    <div class="page-content">
+      <div class="checkout">
+        <div class="container">
+          <form action="/checkout/<%=address._id %>" method="post">
+            <input type="text" name="totalAmount" id="" hidden value="<%= totalAmount %>">
+            <input type="text" name="addressId" id="" hidden value="<%= address._id %>">
+            <div class="row">
+              <div class="col-lg-8">
+                <div class="summary">
+                  <h3 class="summary-title">Your Order</h3>
+                  <!-- Table content -->
+                  <table class="table table-summary">
+                    <thead>
+                      <tr>
+                        <th>Product</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+
+                      <% cart.products.forEach((product)=> { %>
+                        <tr>
+                          <td>
+                            <img src="/<%= product.productId.image[0] %>" style="height: 50px;">
+                          </td>
+                          <td>
+                            <h4>
+                              <%= product.productId.name %>
+                            </h4>
+                          </td>
+                          <td>
+                            <p>
+                              <%= product.productId.price %>
+                            </p>
+                          </td>
+                          <td>
+                            <p>
+                              <%= product.quantity %>
+                            </p>
+                          </td>
+                          <td>
+                            <%= product.total %>
+                          </td>
+                        </tr>
+
+                        <% }); %>
+                          <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                          </tr>
+                          <tr class="summary-subtotal">
+                            <td colspan="4">Subtotal:</td>
+                            <td>
+                              <%= totalAmount %>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td colspan="4">Shipping:</td>
+                            <td>50</td>
+                          </tr>
+                          <tr>
+                            <td colspan="4">Coupon Discount:</td>
+                            <td id="coupondiscount">0</td>
+                          </tr>
+                          <tr class="summary-total">
+                            <td colspan="4">Total:</td>
+                            <td id="orderTotal"> <%= totalAmount+50 %> </td>
+                          </tr>
+                    </tbody>
+                  </table><!-- End .table table-summary -->
+
+
+
+                  <!-- Add billing address here -->
+
+
+                </div><!-- End .summary -->
+              </div><!-- End .col-lg-8 -->
+
+
+
+
+
+              <div class="col-lg-4">
+
+                <div class="summary">
+                  <div class="billing-address">
+                    <h3 class="summary-title">Billing Address</h3>
+                    <div class="address-details">
+                      <p>
+                        <%= address.name %>
+                      </p>
+                      <p>
+                        <%= address.city %>, <%= address.state %>
+                            <%= address.pincode %>
+                      </p>
+                      <p>
+                        <%= address.address %>
+                      </p>
+                      <p>
+                        <%= address.phone %>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+             
+
+
+                <div class="summary">
+                  <div class="payment">
+                    <h3 class="summary-title">Payment</h3>
+                    <div class="payment-method">
+                      <input class="payment-method-input" type="radio" name="payment" id="cod-payment" value="cod">
+                      <label class="payment-method-label" for="cod-payment">
+                        <span class="payment-method-icon"><i class="fa fa-money"></i></span>
+                        Cash on Delivery
+                      </label>
+                    </div>
+                    <div class="payment-method">
+                      <input class="payment-method-input" type="radio" name="payment" id="paypal-payment"
+                        value="paypal">
+                      <label class="payment-method-label" for="paypal-payment">
+                        <span class="payment-method-icon"><i class="fa fa-paypal"></i></span>
+                        PayPal
+                      </label>
+                    </div>
+                    <div class="payment-method">
+                      <input class="payment-method-input" type="radio" name="payment" id="wallet"
+                        value="wallet">
+                      <label class="payment-method-label" for="wallet-payment">
+                        <span class="payment-method-icon"><i class="fa wallet"></i></span>
+                        wallet
+                      </label>
+                    </div>
+                  </div>`
+
+                  <div class="text-center">
+                    <button type="submit" class="btn btn-primary btn-order">
+                      <span class="btn-text">Place Order</span>
+                    </button>
+                  </div>
+          </form>
+          </div>
+
+          <div class="summary mt-5">
+          <div class="checkout-discount">
+            <div class="coupon">
+              <h3 class="summary-title">Coupon Discount</h3>
+              <form id="couponForm">
+                <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                  view coupons
+                </a>
+                <input type="text" class="form-control" id="coupon-discount"
+                  placeholder="Have a coupon? Enter your code here">
+                <label for="checkout-discount" class="text-muted"></label>
+                <h5 id="couponMessage1" class="text-success"><strong> </strong></h5>
+                <h5 id="couponMessage2" class="text-danger"><strong> </strong></h5>
+                <div class="text-center">
+                  <button type="submit" class="btn btn-primary" >
+                    <span class="btn-text">Apply Coupon</span>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+      <!-- Button trigger modal -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Coupon Details</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <% coupon.forEach(coupon => { %>
+          <p><strong>Code:</strong> <%= coupon.code %></p>
+          <p><strong>Discount:</strong> <%= coupon.discount %></p>
+          <p><strong>Description:</strong> <%= coupon.description %></p>
+          <p><strong>Expiry Date:</strong> <%= coupon.expiryDate %></p>
+          <p><strong>Status:</strong> <%= coupon.status ? 'Active' : 'Inactive' %></p>
+          <hr> <!-- Add a horizontal line to separate each coupon -->
+        <% }) %>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+    </div><!-- End .row -->
+  </div><!-- End .container -->
+  </div><!-- End .checkout -->
+
+  </div><!-- End .page-content -->
+  </main><!-- End .main -->
+  <%- include('../partials/userFooter') %>
+    </div><!-- End .page-wrapper -->
+    <button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
+
+    <%- include('../partials/mobileMenu') %>
+      <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+
+      
+      
+      <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          const couponForm = document.getElementById('couponForm');
+
+          couponForm.addEventListener('submit', function(e) {
+           e.preventDefault();
+           const couponCode = document.getElementById('coupon-discount').value;
+
+           console.log(couponCode,"code here");
+          
+           axios.post('/redeemCoupon', {couponCode})
+             .then(function(response) {
+               const successMessage = document.getElementById('couponMessage1');
+               const errorMessage = document.getElementById('couponMessage2');
+               const coupondiscount = document.getElementById('coupondiscount');
+               const orderTotal = document.getElementById('orderTotal');
+          
+               if (response.data.success) {
+                 successMessage.textContent = 'Coupon Applied Successfully!';
+                 errorMessage.textContent = '';
+                 coupondiscount.textContent = response.data.discountAmount;
+          
+                 const formattedOrderTotal = response.data.orderTotal;
+                 orderTotal.innerHTML = '<strong>' + formattedOrderTotal + '</strong>';
+               } else {
+                 successMessage.textContent = '';
+                 errorMessage.textContent = response.data.message;
+               }
+             })
+             .catch(function(error) {
+               console.log(error);
+             });
+          });
+          });
+          </script>
+
+
+
+
+
+      <!-- Plugins JS File -->
+      <script src="/assets/js/jquery.min.js"></script>
+      <script src="/assets/js/bootstrap.bundle.min.js"></script>
+      <script src="/assets/js/jquery.hoverIntent.min.js"></script>
+      <script src="/assets/js/jquery.waypoints.min.js"></script>
+      <script src="/assets/js/superfish.min.js"></script>
+      <script src="/assets/js/owl.carousel.min.js"></script>
+      <!-- Main JS File -->
+      <script src="/assets/js/main.js"></script>
+      </body>
+
+
+      <!-- molla/checkout.html  22 Nov 2019 09:55:06 GMT -->
+
+      </html>

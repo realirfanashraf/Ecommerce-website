@@ -1,0 +1,71 @@
+<%- include('../partials/adminHeader') %>	
+<%- include('../partials/adminNavbar') %>
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Products /</span> View Products</h4>
+  
+    <hr class="my-5" />
+  
+    <!-- Bordered Table -->
+    <div class="card">
+      <div class="card-body">
+        <div class="table-responsive text-nowrap">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>No.</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Images</th>
+                <th>Stocks</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% products.forEach((product, index) => { %>
+              <tr>
+                <td><%= index + 1 %></td>
+                <td><strong><%= product.name %></strong></td>
+                <td><%= product.description %></td>
+                <td>
+                  <ul class="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
+                    <% if (product.image.length > 0) { %>
+                    <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
+                      class="avatar avatar-xs pull-up" title="">
+                      <img src="/<%= product.image[0] %>" alt="Avatar" class="rounded-circle" />
+                    </li>
+                    <% } %>
+                  </ul>
+                </td>
+                <td><%= product.stock %></td>
+                <td><%= product.category %></td>
+                <td>₹ <%= product.price %></td>
+                <td>
+                  <div class="dropdown">
+                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                      <i class="bx bx-dots-vertical-rounded"></i>
+                    </button>
+                    <div class="dropdown-menu">
+                      <a class="dropdown-item" href="/admin/editProduct/<%= product._id %>">
+                        <i class="bx bx-edit-alt me-1"></i> Edit
+                      </a>
+                      <a class="dropdown-item delete-link" href="/admin/deleteProduct<%= product._id %>">
+                        <i class="bx bx-trash me-1"></i> Delete
+                      </a>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <!--/ Bordered Table -->
+  
+    <hr class="my-5" />
+  </div>
+  
+<%- include('../partials/adminFooter') %>		

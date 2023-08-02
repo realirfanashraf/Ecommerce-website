@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Example 1</title>
+    <link rel="stylesheet" href="/assets/css/invoiceStyle.css" media="all" />
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet">
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+    <div class="invoice">
+        <header class="clearfix">
+            <div id="logo">
+                <img src="/assets/images/logo-icon.png">
+            </div>
+            <h1>INVOICE</h1>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div id="project" class="boxleft">
+                            <p><%= orders.address.name %></p>
+                <p><%= orders.address.address %></p>
+                <p><%= orders.address.phone %></p>
+                <p><%= orders.address.pincode %></p>
+                <p><%= orders.address.city %></p>
+                <p><%= orders.address.state %></p>
+                <p><strong>Created At:</strong> <%= orders.createdAt %></p>
+                        </div>
+                    </div>
+                    <div class="col-md-6" class="boxright">
+                        <div id="">
+                            <p>SpecXpert</p>
+                            <p>455 Foggy Heights,<br /> AZ 85004, US</p>
+                            <p>(602) 519-0450</p>
+                            <p><a href="mailto:SpecXpert@gmail.com">SpecXpert@gmail.com</a></p>                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </header>
+        <main>
+            <table>
+                <thead>
+                    <tr>
+                        <th class="service">PRODUCT</th>
+                        <th class="desc">DESCRIPTION</th>
+                        <th>PRICE</th>
+                        <th>QTY</th>
+                        <th>TOTAL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                  
+                    <% orders.items.forEach(product => { %>
+                        <tr>
+                            <td class="service"><%= product.product.name %></td>
+                            <td class="desc"><%= product.product.description %></td>
+                            <td class="unit"><%= product.product.price %></td>
+                            <td class="qty"><%= product.quantity %></td>
+                            <td class="total"><%= product.total %></td>
+                        </tr>
+                        <% }) %>
+                    <tr>
+                        <td colspan="4">SUBTOTAL</td>
+                        <td class="total"><%= orders.totalAmount %></td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">TAX FREE</td>
+                        <td class="total">00</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" class="grand total">GRAND TOTAL</td>
+                        <td class="grand total"><%= orders.totalAmount %></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div id="notices">
+                <div>NOTICE:</div>
+                <div class="notice">A finance charge of 1.5% will be made on unpaid balances after 30 days.</div>
+            </div>
+        </main>
+    </div>
+    <button id="download-button" onclick="generatePDF()">Download PDF</button>
+    <script>
+        const button = document.getElementById('download-button');
+
+        function generatePDF() {
+            // Choose the element that your content will be rendered to.
+            const element = document.querySelector('.invoice');
+            // Choose the element and save the PDF for your user.
+            html2pdf().from(element).save();
+        }
+
+        button.addEventListener('click', generatePDF);
+    </script>
+</body>
+</html>

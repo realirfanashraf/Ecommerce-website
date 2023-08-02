@@ -1,0 +1,104 @@
+<%- include('../partials/_header') %>	
+    <div class="page-wrapper">
+
+        <div class="background" style="background-image: url(assets/images/page-header-bg.jpg);">
+			<%- include('../partials/userNavbar') %>      
+            </div><!-- End .page-header -->
+        <main class="main">
+            <nav aria-label="breadcrumb" class="breadcrumb-nav">
+                <div class="container">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb-item"><a href="#">Shop</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Checkout</li>
+                    </ol>
+                </div><!-- End .container -->
+            </nav><!-- End .breadcrumb-nav -->
+
+			<div class="page-content">
+				<div class="checkout">
+					<div class="container">
+						<div class="row">
+							<div class="col-lg-6">
+								<form action="/userAddress" method="post">
+									<h2 class="checkout-title">Billing Details</h2>
+									<div class="row">
+										<div class="col-sm-12">
+											<label>Full Name *</label>
+											<input name="name" type="text" class="form-control" required>
+										</div>
+									</div>
+									<label>Phone *</label>
+									<input type="tel" name="phone" class="form-control" required>
+			
+									<label>Address *</label>
+									<input type="text" name="address" class="form-control" required>
+									<label>City *</label>
+									<input type="text" name="city" class="form-control" required>
+			
+									<label>State / County *</label>
+									<input type="text" name="state" class="form-control" required>
+			
+									<label>Postcode / ZIP *</label>
+									<input type="number" name="pincode" class="form-control" required>
+			
+									<button type="submit" class="btn btn-primary btn-block" action="/addAddress">Add Address</button>
+								</form>
+							</div>
+							<div class="col-lg-6">
+								<div class="product-checkout-details">
+									<div class="block">
+										<h4 class="widget-title">Recent Address</h4>
+										<div class="address-item">
+											<% if (data && data.length > 0) { %>
+												<ul>
+													<% data.forEach((address) => { %>
+														<li>Name: <%= address.name %></li>
+														<li>Phone: <%= address.phone %></li>
+														<li>Address: <%= address.address %></li>
+														<li>Pin Code: <%= address.pincode %></li>
+														<li>City: <%= address.city %></li>
+														<li>State: <%= address.state %></li>
+														<a href="" class="btn btn-primary mt-2 mb-2" data-bs-toggle="modal" data-bs-target="#exampleModal<%= address._id %>">Edit Address</a>
+														<a href="/checkout/<%= address._id %>" class="btn btn-success mt-2 mb-2">Deliver Here</a>
+														<a href="/deleteAddress/<%= address._id %>" class="btn">delete</a>
+
+														<br>
+													<% }); %>
+												</ul>
+											<% } else { %>
+												<p>No address found</p>
+											<% } %>
+										</div>
+										<div class="verified-icon"></div>
+									</div>
+								</div>
+							</div>
+						</div><!-- End .row -->
+					</div><!-- End .container -->
+				</div><!-- End .checkout -->
+			</div><!-- End .page-content -->
+			
+							
+        </main><!-- End .main -->
+
+        <%- include('../partials/userFooter') %>
+    </div><!-- End .page-wrapper -->
+    <button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
+	<%- include('../partials/mobileMenu') %>
+
+
+    <!-- Plugins JS File -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/jquery.hoverIntent.min.js"></script>
+    <script src="assets/js/jquery.waypoints.min.js"></script>
+    <script src="assets/js/superfish.min.js"></script>
+    <script src="assets/js/owl.carousel.min.js"></script>
+    <!-- Main JS File -->
+    <script src="assets/js/main.js"></script>
+</body>
+
+
+
+</html>

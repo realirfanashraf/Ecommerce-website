@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>SpecXpert</title>
+
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="/user_login_assets/fonts/material-icon/css/material-design-iconic-font.min.css">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="/user_login_assets/css/style.css">
+
+    <style>
+        /* Add this style to make the input fields transparent */
+        .form-input {
+            background-color: transparent;
+            border: none;
+            border-bottom: 2px solid #050404;
+            color: #ffc4c4;
+        }
+
+        /* Add this style to change the color of the field labels */
+        .form-group label {
+            color: #ffffff;
+        }
+        .signup-content {
+    background: none;
+}
+    </style>
+</head>
+
+<body>
+
+    <div class="main">
+
+        <section class="signup">
+            <div class="container">
+                <div class="signup-content">
+                    <form action="/signup-getOtp" method="POST" id="signup-form" onsubmit="return validatePhone()" class="signup-form">
+                        <h2 class="form-title">Create Account</h2>
+                        <div class="form-group">
+                         
+                                                <% if (locals.message) { %>
+                                                    <div id="msg" class="alert alert-danger text-center">
+                                                    <%= locals.message %>
+                                                    </div>
+                                                    <div id="error-message" class="alert alert-danger text-center">
+                                                    
+                                                        </div>
+                                                    <script>
+                                                    setTimeout(function() {
+                                                        var messageElement = document.getElementById("msg");
+                                                        messageElement.parentNode.removeChild(messageElement);
+                                                    }, 5000); // Remove the message after 5 seconds (adjust the duration as needed)
+                                                    </script>
+                                                <% } %>
+                                                
+                                            
+                            <input type="text" class="form-input" name="name" id="name" placeholder="Your Name" required />
+                        </div>
+                        <div class="form-group">
+                            <input type="email" class="form-input" name="email" id="email" placeholder="Your Email" required/>
+                        </div>
+                        <div class="form-group">
+                            <input type="tel" class="form-input" name="phone" id="phone" placeholder="Your Mobile Number" required />
+                            <span id="warning-message" style="color: red;"></span>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-input" name="password" id="password" placeholder="Password" required />
+                            <span toggle="#password" class="zmdi zmdi-eye field-icon toggle-password"></span>
+                        </div>
+                       
+                        <div class="form-group">
+                            <input type="checkbox" name="agree-term" id="agree-term" class="agree-term" required />
+                            <label for="agree-term" class="label-agree-term"><span><span></span></span>I agree to all statements in <a href="#" class="term-service">Terms of Service</a></label>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit"  name="submit" id="submit" class="form-submit" value="Sign Up" />
+                        </div>
+                    </form>
+                    <p class="loginhere">
+                        Already have an account? <a href="/login" class="loginhere-link">Login here</a>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- JS -->
+    <script src="/user_login_assets/vendor/jquery/jquery.min.js"></script>
+    <script src="/user_login_assets/js/main.js"></script>
+
+    <script>
+        function validatePhone() {
+          var phoneInput = document.getElementById("phone").value;
+          var warningMessage = document.getElementById("warning-message");
+      
+          // Regular expression to match only numeric values
+          var numericRegex = /^\d{10}$/;
+      
+          if (!numericRegex.test(phoneInput)) {
+            // Display warning message
+            warningMessage.innerHTML = "Please enter a 10-digit numeric value for your phone number.";
+      
+            // Clear warning message after 3 seconds
+            setTimeout(function() {
+              warningMessage.innerHTML = "";
+            }, 3000);
+      
+            return false;
+          } else {
+            return true;
+          }
+        }
+      </script>
+</body>
+
+</html>

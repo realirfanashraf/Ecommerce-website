@@ -1,0 +1,27 @@
+<%- include('../partials/adminHeader') %>	
+<%- include('../partials/adminNavbar') %>
+<div class="content-wrapper">
+    <div class="container">
+      <h4>Add Category</h4>
+  
+      <div class="card mb-4">
+        <div class="card-body">
+          <form action="/admin/addCategory" method="post">
+            <div class="mb-3">
+              <label for="category-name" class="form-label">Category Name</label>
+              <input type="text" name="category" class="form-control" id="category-name" placeholder="Enter Category here" required>
+            </div>
+  
+            <% if (typeof message !== 'undefined') { %>
+              <div class="alert alert-dark" role="alert">
+                <%= message %>
+              </div>
+            <% } %>
+  
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+<%- include('../partials/adminFooter') %>	
