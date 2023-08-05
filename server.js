@@ -49,11 +49,6 @@ app.use(express.static("uploads"));
 
 
 
-<<<<<<< HEAD
-// Setting up the server port 
-=======
-// Setting up the server port
->>>>>>> d9eae47c77004ff704ca775ad6238a871630f6ff
 const PORT = process.env.PORT || 3000;
 
 // Connecting to the database
