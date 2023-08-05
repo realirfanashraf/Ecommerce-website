@@ -9,7 +9,9 @@ const bcrypt = require('bcrypt');
 const multer = require('multer')
 const twilio = require('./server/routers/twilio-sms')
 const paypal = require('paypal-rest-sdk')
+  
 
+// hi change
 
 // Importing local modules
 const connectDB = require('./server/connection/connection');
@@ -48,7 +50,7 @@ app.use(express.static("uploads"));
 
 
 // Setting up the server port
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 3000;
 
 // Connecting to the database
 connectDB();
