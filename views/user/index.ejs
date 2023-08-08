@@ -1,78 +1,71 @@
 <%- include('../partials/_header') %>	
 
+
+<style>
+
+
+/* Style for the text inside the div */
+#alignedDiv {
+    color: #f3f3f3; /* Text color */
+    font-size: 50px; /* Font size */
+    font-family: Arial, sans-serif; /* Font family */
+    line-height: 1; /* Line height for better spacing */
+	font-weight: 700;
+}
+
+.aligned-div{
+	text-align: left;
+}
+
+</style>
 	<div class="page-wrapper">
-		<div class="background" style="background-image: url(assets/images/demos/demo-24/slider/back-1.jpg);">
+		<div class="background" style="background-image: url(/assets/images/banner.jpg);">
 			
 			<%- include('../partials/userNavbar') %>	
-
-	        <div class="slider">
 	        	<div class="intro">
-	        		<div class="title">
-	        			<h3></h3>
-	        		</div>
-	        		<div class="content">
-	        			<h4><i></i></h4>
-	        			<!-- <h5>SEE THE WORLD THROUGH CONFIDENCE AND STYLE</h5> -->
-	        		</div>
-	        		<div class="action">
-	        			<!-- <a href="category.html">discover now</a> -->
-	        		</div>
+					<div class="aligned-div">
+						<p id="alignedDiv" class="p-5">SEE THE WORLD <br>THROUGH <br> CONFIDENCE AND STYLE</p>
+					</div>
+	        		
 	        	</div>
 	        	
-	        </div>
+	       
 		</div>
 		<main class="main">
-			<section class="logos">
-				<div class="container">
-					
-	                </div><!-- End .owl-carousel -->
-				</div>
-            </section><!-- End .container -->
-
-            <section class="banners center">
-            	<div class="container">
-            		<div class="row">
-            			<div class="banner col-lg-4 col-md-6 col-sm-6">
-	            			<img src="assets/images/demos/demo-24/banners/banner-1.jpg">
-	            			<div class="intro">
-	            				<div class="title">
-	            					
-	            				</div>
-	            				
-	            				<div class="action">
-	            					<a href="/shop">Mens Collection</a>
-	            				</div>
-	            			</div>
-	            		</div>
-
-	            		<div class="banner col-lg-4 col-md-6 col-sm-6">
-	            			<img src="assets/images/demos/demo-24/banners/banner-2.jpg">
-	            			<div class="intro">
-	            				<div class="title">
-	            					
-	            				</div>
-	            				
-	            				<div class="action">
-	            					<a href="/shop">Womens Collection</a>
-	            				</div>
-	            			</div>
-	            		</div>
-
-	            		<div class="banner col-lg-4  col-md-6 col-sm-6">
-	            			<img src="assets/images/demos/demo-24/banners/banner-3.jpg">
-	            			<div class="intro">
-	            				<div class="title">
-	            				
-	            				</div>
-	            				
-	            				<div class="action">
-	            					<a href="/shop">Kids Collection</a>
-	            				</div>
-	            			</div>
-	            		</div>
-            		</div>
-            	</div>
-            </section>
+			
+			
+				<div class="container p-5">
+					<div class="row">
+						<div class="col-md-6">
+							<div class="banner banner-cat">
+								<a href="#">
+									<img src="/assets/images/demos/demo-24/banners/banner-2.jpg" alt="Banner">
+								</a>
+		
+								<div class="banner-content">
+									<h3 class="banner-title">Women</h3><!-- End .banner-title -->
+									<h4 class="banner-subtitle">18 Products</h4><!-- End .banner-subtitle -->
+									<a href="/shop" class="banner-link text-white">Shop Now</a>
+								</div><!-- End .banner-content -->
+							</div><!-- End .banner -->
+						</div><!-- End .col-md-6 -->
+		
+						<div class="col-md-6">
+							<div class="banner banner-cat">
+								<a href="#">
+									<img src="/assets/images/demos/demo-24/banners/banner-1.jpg" alt="Banner">
+								</a>
+		
+								<div class="banner-content">
+									<h3 class="banner-title">Men</h3><!-- End .banner-title -->
+									<h4 class="banner-subtitle">12 Products</h4><!-- End .banner-subtitle -->
+									<a href="/shop" class="banner-link text-white">Shop Now</a>
+								</div><!-- End .banner-content -->
+							</div><!-- End .banner -->
+						</div><!-- End .col-md-6 -->
+					</div><!-- End .row -->
+				</div><!-- End .container -->
+			
 
 				
 			<div class="container">
@@ -85,7 +78,7 @@
 			  
 
 
-            <section class="instagram mb-3">
+            <!-- <section class="instagram mb-3">
             	<div class="container">
             		<div class="heading">
             			<p class="heading-cat">Follow Us On Instagram <span class="highlight">@specxpert<span></p>
@@ -128,7 +121,7 @@
 	            		</div>
 	            	</div>
 	            </div>
-            </section>
+            </section> -->
 		</main>
 
 		<%- include('../partials/userFooter') %>

@@ -50,21 +50,6 @@ exports.adminLogin = (req, res) => {
 
 
 
-//dashboard-----------------------------------------------------------------------------------------------------
-
-
-
-// exports.dashboard = async (req, res) => {
-//   try {
-//     const deliveredRevenueData = await getDeliveredRevenueData();
-//     res.render('admin/dashboard', { revenueData: deliveredRevenueData });
-//   } catch (error) {
-//     console.log(error);
-//     // Handle the error appropriately, e.g., show an error page or redirect to an error page.
-//     res.status(500).send('Internal Server Error');
-//   }
-// };
-
 // Function to fetch delivered revenue data from the database
 async function getDeliveredRevenueData() {
   try {
