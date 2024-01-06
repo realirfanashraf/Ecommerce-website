@@ -44,38 +44,8 @@
 
                             <div class="products mb-3">
                                 <div style="width: 100%;" class="row productListContainer" >
-                                    <% products.forEach(function(product) { %>
-                                    <div class="col-6 col-md-4 col-lg-4">
-                                        <div class="product product-7 text-center">
-                                            <figure class="product-media">
-                                                <!-- <span class="product-label label-new">new</span> -->
-                                                <a href="/productView/<%= product._id %>">
-                                                    <img src="<%= product.image[0] %>" alt="Product image" class="product-image">
-                                                </a>
+                                    
 
-                                                <div class="product-action-vertical">
-                                                    <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
-                                                    
-                                                </div><!-- End .product-action-vertical -->
-
-                                                <div class="product-action">
-                                                    <a href="/addToCart/<%= product._id %>" method="post" class="btn-product btn-cart" data-product-id="<%= product._id %>"><span>Add to Cart</span></a>
-                                                </div><!-- End .product-action -->
-                                            </figure><!-- End .product-media -->
-                                            <div class="product-body">
-                                                <div class="product-cat">
-                                                    <a href="/productView/<%= product._id %>">
-                                                        <%= product.name %>
-                                                    </a>
-                                                </div><!-- End .product-cat -->
-                                                <h3 class="product-title"><a href="#"><%=product.brand%></a></h3><!-- End .product-title -->
-                                                <div class="product-price">
-													₹<%= product.price %>
-                                                </div><!-- End .product-price -->
-                                            </div><!-- End .product-body -->
-                                        </div><!-- End .product -->
-                                    </div>
-                                    <% }) %>  
                                 </div><!-- End .row -->
                             </div><!-- End .products -->
 
@@ -273,7 +243,7 @@
                     <img src="${product.image[0]}" alt="Product image" class="product-image">
                   </a>
                   <div class="product-action-vertical">
-                    <a href="#" class="btn-product-icon btn-wishlist btn-expandable">
+                    <a href="/addToWishlist/${product._id}"class="btn-product-icon btn-wishlist btn-expandable">
                       <span>add to wishlist</span>
                     </a>
                   </div>
@@ -431,5 +401,8 @@
 					
 			
 		</script>
+
+
+
 
     <%- include('../partials/_footer') %>
