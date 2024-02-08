@@ -1,13 +1,9 @@
 <%- include('../partials/_header') %>	
     <div class="page-wrapper">
-
         <div class="background" style="background-image: url(assets/images/page-header-bg.jpg);">
 			<%- include('../partials/userNavbar') %>      
             </div><!-- End .page-header -->
-           
-           
             <nav aria-label="breadcrumb" class="breadcrumb-nav mb-2">
-               
             </nav><!-- End .breadcrumb-nav -->
 
             <div class="page-content">
@@ -157,252 +153,227 @@
 
 	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-	<!-- Your HTML code remains unchanged -->
-<!-- Your HTML code remains unchanged -->
 
 <script>
-	document.addEventListener('DOMContentLoaded', function () {
-	  // Get references to the checkboxes
-	  const allBrandsCheckbox = document.getElementById('brand-all');
-	  const brandCheckboxes = document.querySelectorAll('input[name="brand-filter"]:not(#brand-all)');
-  
-	  // Function to deselect all other brands
-	  function deselectAllOtherBrands() {
-		brandCheckboxes.forEach(checkbox => {
-		  checkbox.checked = false;
-		});
-	  }
-  
-	  // Function to deselect the "All brands" checkbox
-	  function deselectAllBrands() {
-		allBrandsCheckbox.checked = false;
-	  }
-  
-	  // Function to check the "All brands" checkbox
-	  function checkAllBrands() {
-		allBrandsCheckbox.checked = true;
-	  }
-  
-	  // Handle "All brands" checkbox click event
-	  allBrandsCheckbox.addEventListener('change', function () {
-		if (this.checked) {
-		  deselectAllOtherBrands();
-		} else {
-		  // Prevent unchecking "All brands" if no other brand is checked
-		  const areOtherBrandsChecked = Array.from(brandCheckboxes).some(checkbox => checkbox.checked);
-		  if (!areOtherBrandsChecked) {
-			checkAllBrands();
-		  }
-		}
-	  });
-  
-	  // Handle other brand checkboxes click events
-	  brandCheckboxes.forEach(checkbox => {
-		checkbox.addEventListener('change', function () {
-		  if (this.checked) {
-			deselectAllBrands();
-		  } else {
-			// Check "All brands" checkbox if none of the other brand checkboxes are checked
-			const areOtherBrandsChecked = Array.from(brandCheckboxes).some(checkbox => checkbox.checked);
-			if (!areOtherBrandsChecked) {
-			  checkAllBrands();
-			}
-		  }
-		});
-	  });
-	});
-  </script>
-  
-  
-	
+    document.addEventListener('DOMContentLoaded', function () {
+        const allBrandsCheckbox = document.getElementById('brand-all');
+        const brandCheckboxes = document.querySelectorAll('input[name="brand-filter"]:not(#brand-all)');
 
+        function deselectAllOtherBrands() {
+            brandCheckboxes.forEach(checkbox => {
+                checkbox.checked = false;
+            });
+        }
 
-	<script>
-		const dropdownSelect = document.getElementById('sortby');
-	
-		dropdownSelect.addEventListener('change', function () {
-			const selectedSortBy = this.value;
-			console.log(selectedSortBy,"sort value");
+        function deselectAllBrands() {
+            allBrandsCheckbox.checked = false;
+        }
 
-		});
-	</script>
-	
-		
-			 <script>
-						$(document).ready(function () {
-								function updateProductList(products) {
-					const productListContainer = $('.productListContainer');
-					productListContainer.empty();
-		
-					const productCards = products.map(product => `
-            <div class="col-6 col-md-4 col-lg-4">
-              <div class="product product-7 text-center">
-                <figure class="product-media">
-                  <a href="/productView/${product._id}">
-                    <img src="${product.image[0]}" alt="Product image" class="product-image">
-                  </a>
-                  <div class="product-action-vertical">
-                    <a href="/addToWishlist/${product._id}"class="btn-product-icon btn-wishlist btn-expandable">
-                      <span>add to wishlist</span>
-                    </a>
-                  </div>
-                  <div class="product-action">
-                    <a href="/addToCart/${product._id}" method="post" class="btn-product btn-cart" data-product-id="${product._id}">
-                      <span>Add to Cart</span>
-                    </a>
-                  </div>
-                </figure>
-                <div class="product-body">
-                  <div class="product-cat">
-                    <a href="/productView/${product._id}">
-                      ${product.name}
-                    </a>
-                  </div>
-                  <h3 class="product-title">
-                    <a href="#">${product.brand}</a>
-                  </h3>
-                  <div class="product-price">
-                    ₹${product.price}
-                  </div>
+        function checkAllBrands() {
+            allBrandsCheckbox.checked = true;
+        }
+
+        allBrandsCheckbox.addEventListener('change', function () {
+            if (this.checked) {
+                deselectAllOtherBrands();
+            } else {
+                const areOtherBrandsChecked = Array.from(brandCheckboxes).some(checkbox => checkbox.checked);
+                if (!areOtherBrandsChecked) {
+                    checkAllBrands();
+                }
+            }
+        });
+
+        brandCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', function () {
+                if (this.checked) {
+                    deselectAllBrands();
+                } else {
+                    const areOtherBrandsChecked = Array.from(brandCheckboxes).some(checkbox => checkbox.checked);
+                    if (!areOtherBrandsChecked) {
+                        checkAllBrands();
+                    }
+                }
+            });
+        });
+    });
+
+    const dropdownSelect = document.getElementById('sortby');
+
+    dropdownSelect.addEventListener('change', function () {
+        const selectedSortBy = this.value;
+        console.log(selectedSortBy, "sort value");
+    });
+
+    $(document).ready(function () {
+        function updateProductList(products) {
+            const productListContainer = $('.productListContainer');
+            productListContainer.empty();
+
+            const productCards = products.map(product => `
+                <div class="col-6 col-md-4 col-lg-4">
+                    <div class="product product-7 text-center">
+                        <figure class="product-media">
+                            <a href="/productView/${product._id}">
+                                <img src="${product.image[0]}" alt="Product image" class="product-image">
+                            </a>
+                            <div class="product-action-vertical">
+                                <a href="#" class="btn-product-icon btn-wishlist btn-expandable">
+                                    <span>add to wishlist</span>
+                                </a>
+                            </div>
+                            <div class="product-action">
+								<a href="#" class="btn-product btn-cart" data-product-id="${ product._id}">
+									<span>Add to Cart</span></a>
+                            </div>
+                        </figure>
+                        <div class="product-body">
+                            <div class="product-cat">
+                                <a href="/productView/${product._id}">
+                                    ${product.name}
+                                </a>
+                            </div>
+                            <h3 class="product-title">
+                                <a href="#">${product.brand}</a>
+                            </h3>
+                            <div class="product-price">
+                                ₹${product.price}
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
-            </div>
-					`);
-		
-					productListContainer.append(productCards.join(''));
-				}   
-		 
-		
-				function createPaginationLinks(totalPages, currentPage) {
-				const paginationContainer = $('#pagination');
-				paginationContainer.empty();
-		
-				// Previous Page Link
-				paginationContainer.append(`
-					<li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
-						<a class="page-link" href="#" aria-label="Previous" data-page="${currentPage - 1}">
-							<span aria-hidden="true">&laquo;</span>
-							<span class="sr-only">Previous</span>
-						</a>
-					</li>
-				`);
-		
-				// Individual Page Links
-				for (let i = 1; i <= totalPages; i++) {
-					paginationContainer.append(`
-						<li class="page-item ${currentPage === i ? 'active' : ''}">
-							<a class="page-link" href="#" data-page="${i}">${i}</a>
-						</li>
-					`);
-				}
-		
-				// Next Page Link
-				paginationContainer.append(`
-					<li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
-						<a class="page-link" href="#" aria-label="Next" data-page="${currentPage + 1}">
-							<span aria-hidden="true">&raquo;</span>
-							<span class="sr-only">Next</span>
-						</a>
-					</li>
-				`);
-			}
-		
-				
-				// Update the pagination links based on the response data
-			function updatePaginationLinks(response) {
-				const { currentPage, totalPages } = response;
-				createPaginationLinks(totalPages, currentPage);
-			}
-		
-								function makeAjaxRequest(dataObj){
-		
-									const {selectedSort,selectedPriceRange,selectedBrand,searchQuery,selectedPage} =dataObj
-							
-							console.log(selectedSort,selectedPriceRange,selectedBrand,searchQuery,selectedPage);
-									$.ajax({
-									url:`/shop?selectedSort=${selectedSort}&selectedPriceRange=${selectedPriceRange}&selectedBrand=${selectedBrand}&searchQuery=${searchQuery}&selectedPage=${selectedPage}`,
-										method:'post',
-										success:(response)=>{
-											console.log('RRR',response);
-											const products = response.products
-											
-											updateProductList(products)
-											updatePaginationLinks(response);
-											
-										}
-									})
-								}
-								const debouncedMakeAjaxRequest = _.debounce(makeAjaxRequest, 500);
-		
-		
-							// Initial data object with default values
-						let dataObj = {
-							selectedSort:'All',
-							selectedPriceRange: 'All', // Default value for price filter
-							selectedBrand: 'all brands', // Default value for brand filter
-							searchQuery: '', // Default value for search query
-							selectedPage: 1, // Default value for pagination page
-						};
-						// Add a change event listener to the radio buttons
-		
-		
-						$('#sortby').on('click', function (event) {
-							event.preventDefault();
-							const selectedSort = $(this).val(); // Use .val() to get the selected value from the select element
-							dataObj.selectedSort = selectedSort;
-							makeAjaxRequest(dataObj);
-						});
-		
-						$('input[name="price-filter"]').on('change', function () {
-							// Get the value of the selected radio button
-							const selectedPriceRange = $('input[name="price-filter"]:checked').val();
-							dataObj.selectedPriceRange=selectedPriceRange
-						makeAjaxRequest(dataObj)
-						
-						});
-						$('input[name="brand-filter"]').on('change',()=>{
-								const selectedBrand = $('input[name="brand-filter"]:checked').map(function () {
-          						  return this.value;
-       							 }).get();
-								
-							dataObj.selectedBrand = selectedBrand
-							makeAjaxRequest(dataObj)
-						
-							})
-		
-				// Add a change event listener to the search input field
-				$('#searchInput').on('input', function () {
-							// Get the search query value
-							const searchQuery = $(this).val().trim();
-		
-							dataObj.searchQuery = searchQuery
-							makeAjaxRequest(dataObj)
-						
-					}); 
-					// Add a click event listener to the pagination links
-				   // Use event delegation to handle click events on pagination links
-		$(document).on('click', '.page-link', function (event) {
-			event.preventDefault();
-			const selectedPage = $(this).data('page');
-			dataObj.selectedPage = selectedPage;
-			makeAjaxRequest(dataObj);
-		});
-		
-					makeAjaxRequest(dataObj)
-		
-		
-				   
-		
-					
-					})
-		
-		
-					
-			
-		</script>
+            `);
 
+            productListContainer.append(productCards.join(''));
+        }
 
+		//add to cart
+		const addToCartButtons = document.querySelectorAll('.btn-cart');
 
+addToCartButtons.forEach(function(button) {
+	button.addEventListener('click', function(event) {
+		event.preventDefault();
+
+		const productId = this.getAttribute('data-product-id');
+
+		axios.post('/addToCart/' + productId)
+		  .then(function(response) {
+			// Show success message using SweetAlert
+			Swal.fire({
+			  title: "Success",
+			  text: "Product added to cart successfully",
+			  icon: "success",
+			  confirmButtonText: "OK"
+			});
+		  })
+		  .catch(function(error) {
+			console.error(error);
+		  });
+	});
+});
+
+        function createPaginationLinks(totalPages, currentPage) {
+            const paginationContainer = $('#pagination');
+            paginationContainer.empty();
+
+            paginationContainer.append(`
+                <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+                    <a class="page-link" href="#" aria-label="Previous" data-page="${currentPage - 1}">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                </li>
+            `);
+
+            for (let i = 1; i <= totalPages; i++) {
+                paginationContainer.append(`
+                    <li class="page-item ${currentPage === i ? 'active' : ''}">
+                        <a class="page-link" href="#" data-page="${i}">${i}</a>
+                    </li>
+                `);
+            }
+
+            paginationContainer.append(`
+                <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+                    <a class="page-link" href="#" aria-label="Next" data-page="${currentPage + 1}">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </li>
+            `);
+        }
+
+        function updatePaginationLinks(response) {
+            const { currentPage, totalPages } = response;
+            createPaginationLinks(totalPages, currentPage);
+        }
+
+        function makeAjaxRequest(dataObj) {
+            const { selectedSort, selectedPriceRange, selectedBrand, searchQuery, selectedPage } = dataObj;
+
+            console.log(selectedSort, selectedPriceRange, selectedBrand, searchQuery, selectedPage);
+            $.ajax({
+                url: `/shop?selectedSort=${selectedSort}&selectedPriceRange=${selectedPriceRange}&selectedBrand=${selectedBrand}&searchQuery=${searchQuery}&selectedPage=${selectedPage}`,
+                method: 'post',
+                success: (response) => {
+                    console.log('RRR', response);
+                    const products = response.products;
+                    updateProductList(products);
+                    updatePaginationLinks(response);
+                }
+            });
+        }
+
+        const debouncedMakeAjaxRequest = _.debounce(makeAjaxRequest, 500);
+
+        let dataObj = {
+            selectedSort: 'All',
+            selectedPriceRange: 'All',
+            selectedBrand: 'all brands',
+            searchQuery: '',
+            selectedPage: 1,
+        };
+
+        $('#sortby').on('click', function (event) {
+            event.preventDefault();
+            const selectedSort = $(this).val();
+            dataObj.selectedSort = selectedSort;
+            makeAjaxRequest(dataObj);
+        });
+
+        $('input[name="price-filter"]').on('change', function () {
+            const selectedPriceRange = $('input[name="price-filter"]:checked').val();
+            dataObj.selectedPriceRange = selectedPriceRange;
+            makeAjaxRequest(dataObj);
+        });
+
+        $('input[name="brand-filter"]').on('change', () => {
+            const selectedBrand = $('input[name="brand-filter"]:checked').map(function () {
+                return this.value;
+            }).get();
+
+            dataObj.selectedBrand = selectedBrand;
+            makeAjaxRequest(dataObj);
+        });
+
+        $('#searchInput').on('input', function () {
+            const searchQuery = $(this).val().trim();
+            dataObj.searchQuery = searchQuery;
+            makeAjaxRequest(dataObj);
+        });
+
+        $(document).on('click', '.page-link', function (event) {
+            event.preventDefault();
+            const selectedPage = $(this).data('page');
+            dataObj.selectedPage = selectedPage;
+            makeAjaxRequest(dataObj);
+        });
+
+        makeAjaxRequest(dataObj);
+    });
+</script>
 
     <%- include('../partials/_footer') %>
